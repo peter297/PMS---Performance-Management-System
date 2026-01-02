@@ -20,11 +20,13 @@ class TrackerController extends Controller
         //
 
         $trackers = auth()->user()->trackers()
-        ->with('trackerType')
+        ->with('trackerTypes')
         ->latest()
         ->paginate(10);
 
-        return view('trackers.index', compact('trackers'));
+        $trackerTypes = TrackerType::where('is_active', true)->get();
+
+        return view('trackers.index', compact('trackers', 'trackerTypes'));
     }
 
     /**
@@ -34,7 +36,9 @@ class TrackerController extends Controller
     {
         //
         $trackerTypes = TrackerType::where('is_active', true)->get();
+
         return view('trackers.create', compact('trackersTypes'));
+        return view('trackers.create');
     }
 
     /**
@@ -45,7 +49,7 @@ class TrackerController extends Controller
         //
 
         $validated = $request->validate([
-            'tracker_type_id' => 'required|exists:tracker_types, id',
+            'tracker_type_id' => 'required|exists:tracker_types,id',
             'file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx|max:10240',
             'period_start' => 'required|date',
             'period_end' => 'required|date|after_or_equal:period_start',
@@ -54,7 +58,7 @@ class TrackerController extends Controller
 
         $file = $request->file('file');
         $filename = time() . '_' . $file->getClientOriginalName();
-        $path = $file->storeAs('trackers', $filename, 'private');
+        $path = $file->storeAs('trackers', $filename, 'public');
 
         Tracker::create([
            'user_id' => auth()->id(),
@@ -81,7 +85,9 @@ class TrackerController extends Controller
 
         Gate::authorize('view', $tracker);
 
-        return view('trackers.show', compact('tracker'));
+        $trackerTypes = TrackerType::where('is_active', true)->get();
+
+        return view('trackers.show', compact('tracker', 'trackerTypes'));
     }
 
     /**
@@ -93,6 +99,9 @@ class TrackerController extends Controller
         Gate::authorize('update', $tracker);
 
         $trackerTypes = TrackerType::where('is_active', true)->get();
+
+
+
         return view('treckers.edit', compact('tracker','trackerTypes'));
 
     }

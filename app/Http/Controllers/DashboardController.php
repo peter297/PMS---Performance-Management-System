@@ -20,7 +20,7 @@ class DashboardController extends Controller
 
 
         $recentTrackers = $user->trackers()
-        ->with('trackerType')
+        ->with('trackerTypes')
         ->latest()
         ->take(5)
         ->get();
