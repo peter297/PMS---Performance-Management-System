@@ -1,5 +1,6 @@
 <x-layouts.app>
     <div class="p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6">
+
         <!-- Page Header -->
         <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <h1 class="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-zinc-100">{{ __('My Trackers') }}</h1>
@@ -12,8 +13,8 @@
             </flux:modal.trigger>
         </div>
 
-        {{-- <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-lg p-4 sm:p-6"> --}}
-            <div class="sm:overflow-x-auto -mx-4 sm:mx-0">
+        <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-lg p-4 sm:p-8">
+            <div class="overflow-x-auto -mx-4 sm:mx-0">
                 <div class="inline-block min-w-full align-middle">
                     <table id="trackersTable" class="min-w-full  display responsive nowrap mt-2" style="width: 100%">
                         <thead>
@@ -39,7 +40,7 @@
                                     <a href="" download>
                                          {{ $tracker->original_filename }}</td>
                                     </a>
-                                <td>{{ $tracker->period_start }} - {{ $tracker->period_end }}</td>
+                                <td>{{ $tracker->period_start->toFormattedDateString() }} - {{ $tracker->period_end->toFormattedDateString() }}</td>
                                 <td>{{ $tracker->submission_date}}</td>
                                 <td>
                                     @if($tracker->status === 'pending')
@@ -72,16 +73,13 @@
                                             {{ __('Edit') }}
                                         </a>
 
-                                        <form action="{{ route('trackers.destroy', $tracker) }}" method="POST"
-                                            class="inline"
-                                            {{-- onsubmit="return confirm('{{ __('Are you sure you want to delete this tracker?') }}');"> --}}
-                                            x-on:click="$flux.modal('confirm').show()"
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
+
+
+                                        {{-- <flux:modal.trigger name="delete-tracker">
+                                                     <button
                                                 class="text-red-600  hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 text-sm whitespace-nowrap">{{
                                                 __('Delete') }}</button>
-                                        </form>
+                                                </flux:modal.trigger> --}}
 
                                         @endif
 
@@ -97,9 +95,60 @@
 
             </div>
 
-        {{-- </div> --}}
+        </div>
+
+
 
     </div>
+
+
+<flux:modal name="delete-tracker" class="min-w-[22rem]">
+    <div class="space-y-6">
+        <div>
+            <flux:heading size="lg">Delete tracker?</flux:heading>
+            <flux:text class="mt-2">
+                You're about to delete this tracker.<br>
+                This action cannot be reversed.
+            </flux:text>
+        </div>
+        <div class="flex gap-2">
+            <flux:spacer />
+            <flux:modal.close>
+                <flux:button variant="ghost">Cancel</flux:button>
+            </flux:modal.close>
+
+              <form action="{{ route('trackers.destroy', $tracker) }}" method="POST"
+                                            class="inline">
+
+                                            @csrf
+                                            @method('DELETE')
+                                        <flux:button type="submit" variant="danger">Delete project</flux:button>
+
+
+                                        </form>
+
+        </div>
+    </div>
+</flux:modal>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <flux:modal name="create-tracker" class="md:w-[600px] space-y-6">
         <div>

@@ -6,8 +6,8 @@
 </div> --}}
 
 
-<div class="flex aspect-square size-8 items-center justify-center rounded-md bg-accent-content text-accent-foreground">
-   <img src="{{ asset('images/Alameen_Logo-removebg-preview (1).png') }}" alt="Logo" class="w-full h-full object-contain"/>
+<div class="flex aspect-square size-8 items-center justify-center rounded-md  text-accent-foreground">
+   <img src="{{ asset('images/Alameen_Logo-removebg-preview (1).png') }}" alt="Logo" class="w-full h-full object-contain border rounded-md border-zinc-500 "/>
 </div>
 <div class="ms-1 grid flex-1 text-start text-sm">
     <span class="mb-0.5 truncate leading-tight font-semibold">PMS Trackers</span>

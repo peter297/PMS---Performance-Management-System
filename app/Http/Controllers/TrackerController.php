@@ -153,7 +153,7 @@ class TrackerController extends Controller
 
         Gate::authorize('delete', $tracker);
 
-        Storage::disk('private')->delete($tracker->file_path);
+        Storage::disk('public')->delete($tracker->file_path);
 
         $tracker->delete();
 

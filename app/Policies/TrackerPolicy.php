@@ -62,7 +62,7 @@ class TrackerPolicy
              return true;
         }
 
-        return $user->isTeacher
+        return $user->isTeacher()
             && $tracker->user_id === $user->id
             && $tracker->status === 'pending';
     }

@@ -199,7 +199,7 @@
                 <flux:select name="tracker_type_id" required>
                     <option value="">{{ __('Select tracker type') }}</option>
                     @foreach ($trackerTypes as $type )
-                        <option value="{{ $type->id }}" {{ old('tracker_type_id') == $type->id ? 'selected' : '' }}>
+                        <option value="{{ $type->id }}" {{ old('tracker_types_id') == $type->id ? 'selected' : '' }}>
                             {{ $type->name }} {{ ucfirst($type->frequency) }}
                         </option>
                     @endforeach
@@ -209,6 +209,22 @@
                 @enderror
 
             </flux:field> --}}
+
+            <flux:field>
+                <flux:label>{{ __('Tracker Type') }}</flux:label>
+                <flux:select name="tracker_type_id" required>
+                    <option value="">{{ __('Select tracker type') }}</option>
+                    @foreach ($trackerTypes as $type )
+                        <option value="{{ $type->id }}" {{ old('tracker_type_id') == $type->id ? 'selected' : '' }}>
+                            {{ $type->name }} {{ ucfirst($type->frequency) }}
+                        </option>
+                    @endforeach
+                </flux:select>
+                @error('tracker_type_id')
+                    <flux:error>{{ $message }}</flux:error>
+                @enderror
+
+            </flux:field>
 
             <flux:field>
                 <flux:label>{{ __('Upload File') }}</flux:label>
