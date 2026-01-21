@@ -13,7 +13,7 @@
             </flux:modal.trigger>
         </div>
 
-        <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-lg p-4 sm:p-8">
+        <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-lg p-4 sm:p-8 shadow-sm">
             <div class="overflow-x-auto -mx-4 sm:mx-0">
                 <div class="inline-block min-w-full align-middle">
                     <table id="trackersTable" class="min-w-full  display responsive nowrap mt-2" style="width: 100%">
@@ -66,6 +66,11 @@
                                             __('View') }}
 
                                         </a>
+
+                                        <flux:button variant="primary" size="sm" icon="arrow-down-tray"
+                                                     :href="route('trackers.download', $tracker)" target="_blank">
+                                        </flux:button>
+
 
                                         @if($tracker->status === 'pending')
                                         <a href="{{ route('trackers.edit', $tracker) }}"

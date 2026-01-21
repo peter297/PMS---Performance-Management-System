@@ -92,6 +92,7 @@
                     <flux:navlist.item icon="home" :href="route('teacher.dashboard')" :current="request()->routeIs('teacher.dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </flux:navlist.item>
+                   <flux:spacer></flux:spacer>
                     <flux:navlist.item icon="arrow-up-right" :href="route('trackers.index')" :current="request()->routeIs('trackers.*')" wire:navigate>
                         {{ __('My Trackers') }}
                     </flux:navlist.item>
