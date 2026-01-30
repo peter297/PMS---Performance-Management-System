@@ -117,7 +117,7 @@
                 <flux:button variant="ghost">Cancel</flux:button>
             </flux:modal.close>
 
-              <form action="{{ route('trackers.destroy', $tracker) }}" method="POST"
+              {{-- <form action="{{ route('trackers.destroy', $tracker) }}" method="POST"
                                             class="inline">
 
                                             @csrf
@@ -125,7 +125,7 @@
                                         <flux:button type="submit" variant="danger">Delete project</flux:button>
 
 
-                                        </form>
+                                        </form> --}}
 
         </div>
     </div>

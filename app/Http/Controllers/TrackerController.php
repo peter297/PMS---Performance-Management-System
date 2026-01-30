@@ -37,8 +37,8 @@ class TrackerController extends Controller
         //
         $trackerTypes = TrackerType::where('is_active', true)->get();
 
-        return view('trackers.create', compact('trackersTypes'));
-        return view('trackers.create');
+        return view('trackers.create', compact('trackerTypes'));
+        
     }
 
     /**
