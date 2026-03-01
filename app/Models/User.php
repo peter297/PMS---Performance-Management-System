@@ -23,6 +23,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'branch_id',
+        'is_active'
     ];
 
     /**
@@ -51,26 +54,56 @@ class User extends Authenticatable
         ];
     }
 
-    public function coordinators(){
-        return $this->belongsToMany(User::class,'teacher_coordinator','teacher_id','coordinator_id')
-        ->withPivot('assigned_date', 'is_active')
-        ->withTimestamps();
+    // public function coordinators(){
+    //     return $this->belongsToMany(User::class,'teacher_coordinator','teacher_id','coordinator_id')
+    //     ->withPivot('assigned_date', 'is_active')
+    //     ->withTimestamps();
+    // }
+
+
+    // public function teachers(){
+    //     return $this->belongsToMany(User::class,'teacher_coordinator','coordinator_id', 'teacher_id')
+    //     ->withPivot('assigned_date', 'is_active')
+    //     ->withTimestamps();
+    // }
+
+
+    // public function trackers(){
+    //     return $this->hasMany(Tracker::class);
+    // }
+
+    // public function reviewedTrackers(){
+    //     return $this->hasMany(Tracker::class, 'reviewed_by');
+    // }
+
+    // Relationship
+
+    public function branch(){
+        return $this->belongsTo(Branch::class);
     }
 
-
-    public function teachers(){
-        return $this->belongsToMany(User::class,'teacher_coordinator','coordinator_id', 'teacher_id')
-        ->withPivot('assigned_date', 'is_active')
-        ->withTimestamps();
+    public function teacherAssignements(){
+        return $this->hasMany(TeacherAssignment::class, 'teacher_id');
     }
 
-
-    public function trackers(){
-        return $this->hasMany(Tracker::class);
+    public function currentAssignment(){
+        return $this->hasOne(TeacherAssignment::class, 'teacher_id')
+            ->where('is_current', true)
+            ->latest();
     }
 
-    public function reviewedTrackers(){
-        return $this->hasMany(Tracker::class, 'reviewed_by');
+    public function classTeacherReports(){
+        return $this->hasMany(ClassTeacherReport::class);
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class)->latest();
+    }
+
+    public function unreadNotifications()
+    {
+        return $this->hasMany(Notification::class)->where('is_read', false);
     }
 
     public function isAdmin(){
@@ -84,6 +117,31 @@ class User extends Authenticatable
 
     public function isTeacher(){
         return $this->role === 'teacher';
+    }
+
+    public function isDeputyHeadTeacher(){
+        return $this->role === 'deputy_head_teacher';
+    }
+
+    public function isDeputyPrincipal(){
+        return $this->role === 'deputy_principal';
+    }
+
+    public function isHeadTeacher(){
+        return $this->role === 'head_teacher';
+    }
+
+    public function isPrincipal(){
+        return $this->role === 'principal';
+    }
+
+    public function isBranchLevel(){
+        return in_array($this->role, ['teacher', 'coordinator', 'deputy_head_teacher', 'deputy_principal']);
+
+    }
+
+    public function isGlobalUser(){
+        return in_array($this->role, ['headteacher', 'principal', 'admin']);
     }
 
     /**
