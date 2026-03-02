@@ -19,44 +19,45 @@ Route::get('/dashboard', function () {
 
     $user = auth()->user();
 
-    if($user->isAdmin()){
+    if ($user->isAdmin()) {
         return redirect()->route('admin.dashboard');
-    }else if($user->isCoordinator()){
+    } else if ($user->isCoordinator()) {
         return redirect()->route('coordinator.dashboard');
-    }else{
+    } else {
         return redirect()->route('teacher.dashboard');
     }
 
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-
 // Teacher Routes
 
-Route::middleware(['auth','verified', 'role:teacher'])->group(function () {
-        Route::get('/teacher/dashboard', [DashboardController::class, 'teacher'])->name('teacher.dashboard');
-        Route::resource('trackers', TrackerController::class);
+Route::middleware(['auth', 'verified', 'role:teacher'])->group(function () {
+    Route::get('/teacher/dashboard', [DashboardController::class, 'teacher'])->name('teacher.dashboard');
+    Route::resource('trackers', TrackerController::class);
+
+    Route::get('/trackers/{tracker}/download', [TrackerController::class, 'download'])->name('trackers.download');
 
 });
 
 // Coordinator Routes
 
-Route::middleware(['auth','verified','role:coordinator'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:coordinator'])->group(function () {
 
     Route::get('/coordinator/dashboard', [CoordinatorCOntroller::class, 'dashboard'])->name('coordinator.dashboard');
     Route::get('/coordinator/teachers', [CoordinatorCOntroller::class, 'teachers'])->name('coordinator.teachers');
     Route::get('/coordinator/trackers', [CoordinatorCOntroller::class, 'trackers'])->name('coordinator.trackers');
-    Route::post('/coordinator/trackers/{tracker}/review', [CoordinatorCOntroller::class,'review'])->name('coordinator.trackers.review');
+    Route::post('/coordinator/trackers/{tracker}/review', [CoordinatorCOntroller::class, 'review'])->name('coordinator.trackers.review');
 
 });
 
 // Admin ROutes
 
-Route::middleware(['auth','verified','role:admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class,'dashboard'])->name('admin.dashboard');
-    Route::get('/admin/users', [AdminController::class,'users'])->name('admin.users');
-    Route::get('/admin/trackers', [AdminController::class,'trackers'])->name(  'admin.trackers');
-    Route::get('/admin/tracker-types', [AdminController::class,'trackerTypes'])->name('admin.tracker-types');
-    Route::post('/admin/assign-coordinator', [AdminController::class,'assignCoordinator'])->name('admin.assign-coordinator');
+Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::get('/admin/trackers', [AdminController::class, 'trackers'])->name('admin.trackers');
+    Route::get('/admin/tracker-types', [AdminController::class, 'trackerTypes'])->name('admin.tracker-types');
+    Route::post('/admin/assign-coordinator', [AdminController::class, 'assignCoordinator'])->name('admin.assign-coordinator');
 
 });
 
@@ -71,7 +72,7 @@ Route::middleware(['auth'])->group(function () {
         ->middleware(
             when(
                 Features::canManageTwoFactorAuthentication()
-                    && Features::optionEnabled(Features::twoFactorAuthentication(), 'confirmPassword'),
+                && Features::optionEnabled(Features::twoFactorAuthentication(), 'confirmPassword'),
                 ['password.confirm'],
                 [],
             ),

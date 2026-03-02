@@ -16,6 +16,10 @@ class TrackerPolicy
         return true;
     }
 
+    public function download(User $user, Tracker $tracker): bool{
+        return $this->view($user, $tracker);
+    }
+
     /**
      * Determine whether the user can view the model.
      */
