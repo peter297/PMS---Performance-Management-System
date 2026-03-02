@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
 Route::get('/', function () {
+    return view('auth.login');
+})->name('login');
+
+Route::get('/welcome', function () {
     return view('welcome');
 })->name('home');
 

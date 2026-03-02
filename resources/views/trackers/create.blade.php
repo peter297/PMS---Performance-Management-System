@@ -58,7 +58,6 @@
                             hover:file:bg-blue-100
                             dark:file:bg-blue-900 dark:file:text-blue-300
                             dark:hover:file:bg-blue-800"
-                        required
                     >
                     <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{{ __('Accepted formats: PDF, DOC, DOCX, XLS, XLSX (Max: 10MB)') }}</p>
                     @error('file')

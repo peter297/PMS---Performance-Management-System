@@ -61,8 +61,8 @@ class TrackerController extends Controller
         Tracker::create([
             'user_id'           => auth()->id(),
             'tracker_type_id'   => $validated['tracker_type_id'],
-            'file_path'         => $path,
-            'original_filename' => $file->getClientOriginalName(),
+            // 'file_path'         => $path,
+            // 'original_filename' => $file->getClientOriginalName(),
             'submission_date'   => now(),
             'period_start'      => $validated['period_start'],
             'period_end'        => $validated['period_end'],
@@ -139,7 +139,7 @@ class TrackerController extends Controller
         Gate::authorize('update', $tracker);
 
         $validated = $request->validate([
-            'tracker_type_id' => 'required|exists:tracker_types, id',
+            'tracker_type_id' => 'required|exists:tracker_types,id',
             'file'            => 'required|file|mimes:pdf,doc,docx,xls,xlsx|max:10240',
             'period_start'    => 'required|date',
             'period_end'      => 'required|date|after_or_equal:period_start',

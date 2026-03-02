@@ -87,7 +87,7 @@
 
         <flux:navlist variant="outline">
 
-            <flux:navlist.group :heading="__('Platform')" class="grid">
+            <flux:navlist.group :heading="__('Platform')" class="grid space-y-6">
 
                 @if(auth()->check())
                 @if(auth()->user()->isTeacher())
@@ -95,7 +95,7 @@
                     :current="request()->routeIs('teacher.dashboard')" wire:navigate>
                     {{ __('Dashboard') }}
                 </flux:navlist.item>
-                <flux:spacer></flux:spacer>
+                
                 <flux:navlist.item icon="arrow-up-right" :href="route('trackers.index')"
                     :current="request()->routeIs('trackers.*')" wire:navigate>
                     {{ __('My Trackers') }}
